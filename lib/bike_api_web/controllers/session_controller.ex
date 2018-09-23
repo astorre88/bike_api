@@ -2,6 +2,7 @@ defmodule BikeApiWeb.SessionController do
   use BikeApiWeb, :controller
 
   alias BikeApi.Accounts
+  alias BikeApi.Guardian
 
   action_fallback BikeApiWeb.FallbackController
 
@@ -12,5 +13,15 @@ defmodule BikeApiWeb.SessionController do
       _ ->
         {:error, :unauthorized}
     end
+  end
+
+  def delete(conn, _) do
+    conn
+    |> Guardian.Plug.current_token
+    |> Guardian.revoke
+
+    conn
+    |> put_status(:no_content)
+    |> render("delete.json")
   end
 end

@@ -22,5 +22,6 @@ defmodule BikeApiWeb.Router do
     pipe_through [:api, :jwt_authenticated]
 
     get("/profile", UserController, :show)
+    delete("/sign_out", SessionController, :delete)
   end
 end

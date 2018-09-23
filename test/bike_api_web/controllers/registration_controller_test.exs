@@ -6,11 +6,6 @@ defmodule BikeApiWeb.RegistrationControllerTest do
   @valid_attrs %{email: "test@email.com", password: "12345678", password_confirmation: "12345678"}
   @invalid_attrs %{email: nil, password: nil}
 
-  def fixture(:user) do
-    {:ok, user} = Accounts.create_user(@valid_attrs)
-    user
-  end
-
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
