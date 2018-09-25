@@ -16,7 +16,8 @@ config :bike_api, BikeApi.Repo,
   password: "postgres",
   database: "bike_api_test",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  types: BikeApi.PostgresTypes
 
 config :bike_api, BikeApi.Guardian,
   issuer: "bike_api",

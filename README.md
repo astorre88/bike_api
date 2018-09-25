@@ -17,10 +17,10 @@
     }
     ```
   * GET `/api/v1/promo_codes?active=true` (default: all)
-  * PATCH `/api/v1/promo_codes`
+  * PATCH `/api/v1/events`
     ```sh
     {
-      "promo_code": {
+      "event": {
         "radius": 5
       }
     }
