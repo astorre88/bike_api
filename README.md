@@ -1,19 +1,37 @@
 # BikeApi
 
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Start Phoenix endpoint with `mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
-
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+  * events model(name:string place:place radius:integer)
+  * promo_codes model(price:integer active:false:boolean event_id:integer)
+  * trip model(pickup:place destination:place)
+  * POST `/api/v1/promo_codes`
+    ```sh
+    {
+      "promo_code": {
+        "amount": 5,
+        "expirates_at": "2018-09-26",
+        "radius": 10
+      },
+      "event": {
+        "id": 1
+      }
+    }
+    ```
+  * GET `/api/v1/promo_codes?active=true` (default: all)
+  * PATCH `/api/v1/promo_codes`
+    ```sh
+    {
+      "promo_code": {
+        "radius": 5
+      }
+    }
+    ```
+  * POST `/api/v1/promo_codes/1/check`
+    ```sh
+    {
+      "trip": {
+        "origin": "Address1",
+        "destination": "Address2"
+      }
+    }
+    ```
+    - returns promo_code with polyline or error
