@@ -43,6 +43,7 @@ config :bike_api, BikeApi.Repo,
   password: "postgres",
   database: "bike_api_dev",
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 10,
+  types: BikeApi.PostgresTypes
 
 import_config "dev.secret.exs"

@@ -46,6 +46,9 @@ defmodule BikeApi.Mixfile do
       {:guardian, "~> 1.0"},
       {:guardian_db, "~> 1.0"},
 
+      # Geo
+      {:geo_postgis, "~> 2.0"},
+
       # Testing
       {:ex_machina, "~> 2.2"},
     ]
