@@ -23,5 +23,8 @@ defmodule BikeApiWeb.Router do
 
     get("/profile", UserController, :show)
     delete("/sign_out", SessionController, :delete)
+    resources("/promo_codes", PromoCodeController, only: [:index, :create, :show, :update]) do
+      get("/check", PromoCodeController, :check)
+    end
   end
 end

@@ -51,4 +51,60 @@ defmodule BikeApi.EventsTest do
       assert %Ecto.Changeset{} = Events.change_event(event)
     end
   end
+
+  describe "promo_codes" do
+    alias BikeApi.Events.PromoCode
+
+    @valid_attrs %{active: true, amount: 42}
+    @update_attrs %{active: false, amount: 43}
+    @invalid_attrs %{active: nil, amount: nil, event: nil}
+
+    def promo_code_fixture(attrs \\ %{}) do
+      {:ok, promo_code} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Events.create_promo_code()
+
+      promo_code
+    end
+
+    test "list_promo_codes/0 returns all promo_codes" do
+      promo_code = promo_code_fixture()
+      assert Events.list_promo_codes() == [promo_code]
+    end
+
+    test "get_promo_code!/1 returns the promo_code with given id" do
+      promo_code = promo_code_fixture()
+      assert Events.get_promo_code!(promo_code.id) == promo_code
+    end
+
+    test "create_promo_code/1 with valid data creates a promo_code" do
+      assert {:ok, %PromoCode{} = promo_code} = Events.create_promo_code(@valid_attrs)
+      assert promo_code.active == true
+      assert promo_code.amount == 42
+    end
+
+    test "create_promo_code/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Events.create_promo_code(@invalid_attrs)
+    end
+
+    test "update_promo_code/2 with valid data updates the promo_code" do
+      promo_code = promo_code_fixture()
+      assert {:ok, promo_code} = Events.update_promo_code(promo_code, @update_attrs)
+      assert %PromoCode{} = promo_code
+      assert promo_code.active == false
+      assert promo_code.amount == 43
+    end
+
+    test "update_promo_code/2 with invalid data returns error changeset" do
+      promo_code = promo_code_fixture()
+      assert {:error, %Ecto.Changeset{}} = Events.update_promo_code(promo_code, @invalid_attrs)
+      assert promo_code == Events.get_promo_code!(promo_code.id)
+    end
+
+    test "change_promo_code/1 returns a promo_code changeset" do
+      promo_code = promo_code_fixture()
+      assert %Ecto.Changeset{} = Events.change_promo_code(promo_code)
+    end
+  end
 end

@@ -2,7 +2,7 @@ defmodule BikeApiWeb.SessionControllerTest do
   use BikeApiWeb.ConnCase
 
   import BikeApi.Guardian
-  import BikeApi.Factory
+  import BikeApi.BikeFactory
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json"), user: insert(:user)}
