@@ -2,14 +2,14 @@ defmodule BikeApiWeb.UserControllerTest do
   use BikeApiWeb.ConnCase
 
   import BikeApi.Guardian
-  import BikeApi.Factory
+  import BikeApi.BikeFactory
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json"), user: insert(:user)}
   end
 
   describe "unauthenticated profile" do
-    test "returns 401", %{conn: conn, user: user} do
+    test "returns 401", %{conn: conn} do
       conn = get(conn, user_path(conn, :show))
 
       assert json_response(conn, 401)

@@ -7,6 +7,7 @@ defmodule BikeApi.Events.Event do
     field :name, :string
     field :place, Geo.PostGIS.Geometry
     field :radius, :integer
+    has_many(:promo_codes, BikeApi.Events.PromoCode)
 
     timestamps()
   end

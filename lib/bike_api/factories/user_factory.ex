@@ -1,13 +1,17 @@
-defmodule BikeApi.Factory do
-  use ExMachina.Ecto, repo: BikeApi.Repo
+defmodule BikeApi.UserFactory do
+  @moduledoc false
 
   alias BikeApi.Accounts.User
 
-  def user_factory do
-    %User{
-      email: sequence(:email, &"email-#{&1}@example.com"),
-      password: "password",
-      password_confirmation: "password"
-    }
+  defmacro __using__(_opts) do
+    quote do
+      def user_factory do
+        %User{
+          email: sequence(:email, &"email-#{&1}@example.com"),
+          password: "password",
+          password_confirmation: "password"
+        }
+      end
+    end
   end
 end

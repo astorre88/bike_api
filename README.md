@@ -1,9 +1,8 @@
 # BikeApi
 
   * events model(name:string place:place radius:integer)
-  * promo_codes model(price:integer active:false:boolean event_id:integer)
-  * trip model(pickup:place destination:place)
-  * POST `/api/v1/promo_codes`
+  * promo_codes model(amount:integer active:false:boolean event_id:integer)
+  * POST/PATCH `/api/v1/promo_codes`
     ```sh
     {
       "promo_code": {
@@ -25,7 +24,7 @@
       }
     }
     ```
-  * POST `/api/v1/promo_codes/1/check`
+  * GET `/api/v1/promo_codes/1/check`
     ```sh
     {
       "trip": {
