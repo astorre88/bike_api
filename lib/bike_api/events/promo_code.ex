@@ -8,7 +8,8 @@ defmodule BikeApi.Events.PromoCode do
   schema "promo_codes" do
     field :active, :boolean, default: false
     field :amount, :integer
-    belongs_to(:event, Event, on_replace: :nilify)
+    field :expirates_at, :utc_datetime
+    belongs_to(:event, Event, foreign_key: :event_id, on_replace: :nilify)
 
     timestamps()
   end
@@ -16,7 +17,8 @@ defmodule BikeApi.Events.PromoCode do
   @doc false
   def changeset(promo_code, attrs) do
     promo_code
-    |> cast(attrs, [:amount, :active])
-    |> validate_required([:amount, :active])
+    |> cast(attrs, [:amount, :active, :expirates_at, :event_id])
+    |> foreign_key_constraint(:event_id)
+    |> validate_required([:amount, :active, :expirates_at, :event_id])
   end
 end

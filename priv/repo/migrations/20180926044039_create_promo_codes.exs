@@ -6,6 +6,7 @@ defmodule BikeApi.Repo.Migrations.CreatePromoCodes do
       add :amount, :integer
       add :active, :boolean, default: false, null: false
       add :event_id, references(:events, on_delete: :nothing)
+      add :expirates_at, :utc_datetime
 
       timestamps()
     end

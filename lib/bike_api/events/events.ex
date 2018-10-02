@@ -4,9 +4,23 @@ defmodule BikeApi.Events do
   """
 
   import Ecto.Query, warn: false
-  alias BikeApi.Repo
+  import Geo.PostGIS
 
+  alias BikeApi.Repo
   alias BikeApi.Events.Event
+
+  @doc """
+  Returns the list of events.
+
+  ## Examples
+
+      iex> list_events(%{})
+      [%PromoCode{}, ...]
+
+  """
+  def list_events(_params) do
+    Repo.all(Event)
+  end
 
   @doc """
   Gets a single event.
@@ -56,7 +70,7 @@ defmodule BikeApi.Events do
   """
   def update_event(%Event{} = event, attrs) do
     event
-    |> Event.changeset(attrs)
+    |> Event.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -76,16 +90,41 @@ defmodule BikeApi.Events do
   alias BikeApi.Events.PromoCode
 
   @doc """
-  Returns the list of promo_codes.
+  Returns the filtered list of promo_codes.
 
   ## Examples
 
-      iex> list_promo_codes()
+      iex> list_filtered_promo_codes(%{"active" => true})
       [%PromoCode{}, ...]
 
   """
-  def list_promo_codes do
-    Repo.all(PromoCode)
+  def list_promo_codes(%{"active" => "true"}) do
+    Repo.all(
+      from p in PromoCode,
+      where: p.active == true,
+      preload: [:event]
+    )
+  end
+  def list_promo_codes(%{"active" => "false"}) do
+    Repo.all(
+      from p in PromoCode,
+      where: p.active == false,
+      preload: [:event]
+    )
+  end
+  def list_promo_codes(_params) do
+    Repo.all(
+      from p in PromoCode,
+      preload: [:event]
+    )
+  end
+
+  def any_in_location(promo_code, place, radius) do
+    Repo.one(
+      from e in Event,
+      where: e.id == ^promo_code.event_id,
+      select: st_dwithin(e.place, ^place, ^radius)
+    )
   end
 
   @doc """
@@ -102,7 +141,13 @@ defmodule BikeApi.Events do
       ** (Ecto.NoResultsError)
 
   """
-  def get_promo_code!(id), do: Repo.get!(PromoCode, id)
+  def get_promo_code!(id) do
+    Repo.one(
+      from promo_code in PromoCode,
+      where: promo_code.id == ^id,
+      preload: [:event]
+    )
+  end
 
   @doc """
   Creates a promo_code.
