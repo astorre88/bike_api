@@ -1,6 +1,8 @@
 defmodule BikeApi.AccountsTest do
   use BikeApi.DataCase
 
+  import BikeApi.BikeFactory
+
   alias BikeApi.Accounts
 
   describe "users" do
@@ -9,17 +11,8 @@ defmodule BikeApi.AccountsTest do
     @valid_attrs %{email: "test@email.com", password: "12345678", password_confirmation: "12345678"}
     @invalid_attrs %{email: nil, password: nil}
 
-    def user_fixture(attrs \\ %{}) do
-      {:ok, user} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Accounts.create_user()
-
-      user
-    end
-
     test "get_user!/1 returns the user with given id" do
-      user = user_fixture()
+      user = insert(:user)
       assert Accounts.get_user!(user.id) == %{user | password: nil, password_confirmation: nil}
     end
 
